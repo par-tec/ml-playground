@@ -1,0 +1,39 @@
+#
+# This compose builds base ML images for development and testing.
+#
+version: "3.9"
+services:
+  #
+  # Base and development containers.
+  #
+  base: &base
+    build:
+      context: .
+      dockerfile: py310-debian.dockerfile
+    volumes:
+    - .:/code
+    environment:
+      TERM: linux
+    entrypoint: /bin/tail
+    command: /bin/tail -f /etc/hosts
+    working_dir: /code
+    cap_add:
+    - SYS_PTRACE
+  test:
+    <<: *base
+    environment:
+      TERM: linux
+      VIRTUALENV_SYSTEM_SITE_PACKAGES: "True"
+    command: ["tox", "-e", "py3"]
+  super-linter:
+    image: github/super-linter:v3.15.5
+    environment:
+    - RUN_LOCAL=true
+    - VALIDATE_MARKDOWN=false
+    - VALIDATE_PYTHON_ISORT=false
+    - VALIDATE_XML=false
+    - VALIDATE_NATURAL_LANGUAGE=false
+    - IGNORE_GITIGNORED_FILES=true
+    volumes:
+    - .:/tmp/lint/
+    - ./tox.ini:/action/lib/.automation/.flake8

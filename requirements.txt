@@ -1,0 +1,17 @@
+click
+faker
+google-api-core
+google-auth
+jsons
+nltk
+numpy
+openai
+pandas
+pyyaml
+scikit-learn
+selenium
+sentence-transformers
+spacy[transformers,lookups]
+tesseract
+thefuzz[speedup]
+torch
