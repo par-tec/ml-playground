@@ -35,3 +35,11 @@ uses the information provided in gcloud config to find the image.
 ```bash
 gcloud artifacts docker images list
 ```
+
+## Using the image
+
+You can use the image from a GCE host configuring access via
+
+```bash
+gce-instance$ docker-credential-gcr configure-docker --registries=europe-west12-docker.pkg.dev
+```
