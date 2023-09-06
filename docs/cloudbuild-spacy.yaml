@@ -1,0 +1,31 @@
+#
+# Build image with Cloud Build.
+#
+# Run with:
+#
+# $ GCLOUD_BUILD_SUBSTITUTIONS="--substitutions=_REGISTRY_ID=$(gcloud config get-value artifacts/repository),_LOCATION=$(gcloud config get-value artifacts/location),COMMIT_SHA=$(git rev-parse --short HEAD)"
+# $ gcloud builds submit . --config docs/cloudbuild-spacy.yaml $GCLOUD_BUILD_SUBSTITUTIONS
+#
+steps:
+- name: 'gcr.io/cloud-builders/docker'
+  # At build time, Cloud Build automatically replaces
+  #  $PROJECT_ID with your project ID;
+  #  see https://cloud.google.com/build/docs/configuring-builds/substitute-variable-values for more info.
+  args:
+  - 'build'
+  - '.'
+  - '--cache-from'
+  - '${_LOCATION}-docker.pkg.dev/$PROJECT_ID/$_REGISTRY_ID/ml-playground:py310-spacy'  # See https://cloud.google.com/build/docs/optimize-builds/speeding-up-builds
+  - '-t'
+  - '${_LOCATION}-docker.pkg.dev/$PROJECT_ID/$_REGISTRY_ID/ml-playground:py310-spacy'
+  - '-t'
+  - '${_LOCATION}-docker.pkg.dev/$PROJECT_ID/$_REGISTRY_ID/ml-playground:py310-spacy-$COMMIT_SHA'
+  - '--file'
+  - 'py310-spacy.dockerfile'
+  - '--build-arg'
+  - 'BASEIMAGE=${_LOCATION}-docker.pkg.dev/$PROJECT_ID/$_REGISTRY_ID/ml-playground'
+  env:
+  - 'DOCKER_BUILDKIT=1'
+images:
+- '${_LOCATION}-docker.pkg.dev/$PROJECT_ID/$_REGISTRY_ID/ml-playground:py310-spacy-$COMMIT_SHA'
+- '${_LOCATION}-docker.pkg.dev/$PROJECT_ID/$_REGISTRY_ID/ml-playground:py310-spacy'
