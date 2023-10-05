@@ -1,3 +1,5 @@
 .tox
 .git
 .github
+.local
+.cache
