@@ -40,14 +40,14 @@ jobs:
     - name: Build
       run: |
         export PYTHON_VERSION=${{ matrix.version }}
-        docker-compose build --pull --force-rm base
+        docker-compose build --pull --force-rm ${{ matrix.flavor }}
     - name: Test
       run: |
         pwd
-        ls -la
         id
         echo UID=$(id -u) >> .env
-        docker-compose run --rm base
+        ls -la
+        docker-compose run --rm ${{ matrix.flavor }}-test
     - name: Cleanup
       run: |
         docker-compose down -v && docker-compose rm --force

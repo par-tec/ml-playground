@@ -1,6 +1,10 @@
 # Python ML Docker Images
 
-Dockerfiles for different ML-based docker images.
+Dockerfiles for different ML-based docker images
+featuring jupyter lab, apache-beam, pandas, numpy, sentence-transformers, spacy, torch & other stuff.
+
+user: jupyter
+uid: 1000
 
 ## Contributing
 

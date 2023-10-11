@@ -11,14 +11,33 @@ services:
       context: .
       dockerfile: py310-debian.dockerfile
     volumes:
-    - .:/code
+    - .:/home/jupyter
     environment:
       TERM: linux
-    entrypoint: /bin/tail
-    command: /bin/tail -f /etc/hosts
-    working_dir: /code
+    # entrypoint: sleep infinity
+    working_dir: /home/jupyter
     cap_add:
     - SYS_PTRACE
+  debian: &debian
+    image: ml-playground:py310-debian
+    <<: *base
+  debian-test:
+    <<: *debian
+    user: ${UID}
+    volumes: []
+    entrypoint: ["jupyter", "--help"]
+  spacy: &spacy
+    <<: *base
+    build:
+      context: .
+      dockerfile: py310-spacy.dockerfile
+      args:
+        - BASEIMAGE=ml-playground
+  spacy-test:
+    <<: *spacy
+    user: ${UID}
+    volumes: []
+    entrypoint: ["jupyter", "--help"]
   test:
     <<: *base
     environment:
