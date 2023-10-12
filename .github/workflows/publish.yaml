@@ -32,7 +32,7 @@ jobs:
     strategy:
       matrix:
         version: [py310]
-        flavor: [debian]
+        flavor: [debian, spacy]
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -55,7 +55,7 @@ jobs:
     strategy:
       matrix:
         version: [py310]
-        flavor: [debian]
+        flavor: [debian, spacy]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -68,7 +68,7 @@ jobs:
     strategy:
       matrix:
         version: [py310]
-        flavor: [debian]
+        flavor: [debian, spacy]
     runs-on: ubuntu-latest
     if: github.event_name != 'pull_request'
     permissions:
