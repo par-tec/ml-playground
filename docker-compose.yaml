@@ -31,8 +31,6 @@ services:
     build:
       context: .
       dockerfile: py310-spacy.dockerfile
-      args:
-        - BASEIMAGE=ml-playground
   spacy-test:
     <<: *spacy
     user: ${UID}
