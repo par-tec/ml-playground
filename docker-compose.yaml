@@ -19,10 +19,10 @@ services:
     cap_add:
     - SYS_PTRACE
   debian: &debian
-    image: ml-playground:py310-debian
     <<: *base
   debian-test:
     <<: *debian
+    image: ml-playground:py310-debian
     user: ${UID}
     volumes: []
     entrypoint: ["jupyter", "--help"]
@@ -33,6 +33,7 @@ services:
       dockerfile: py310-spacy.dockerfile
   spacy-test:
     <<: *spacy
+    image: ml-playground:py310-spacy
     user: ${UID}
     volumes: []
     entrypoint: ["jupyter", "--help"]
