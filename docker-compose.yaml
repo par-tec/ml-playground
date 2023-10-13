@@ -14,16 +14,17 @@ services:
     - .:/home/jupyter
     environment:
       TERM: linux
-    # entrypoint: sleep infinity
-    working_dir: /home/jupyter
     cap_add:
     - SYS_PTRACE
   debian: &debian
     <<: *base
   debian-test:
-    <<: *debian
-    image: ml-playground:py310-debian
+    image: ml-playground_debian
     user: ${UID}
+    environment:
+      TERM: linux
+    cap_add:
+    - SYS_PTRACE
     volumes: []
     entrypoint: ["jupyter", "--help"]
   spacy: &spacy
@@ -32,9 +33,12 @@ services:
       context: .
       dockerfile: py310-spacy.dockerfile
   spacy-test:
-    <<: *spacy
-    image: ml-playground:py310-spacy
+    image: ml-playground_spacy
     user: ${UID}
+    environment:
+      TERM: linux
+    cap_add:
+    - SYS_PTRACE
     volumes: []
     entrypoint: ["jupyter", "--help"]
   test:
