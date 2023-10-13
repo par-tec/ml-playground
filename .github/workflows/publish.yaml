@@ -47,6 +47,9 @@ jobs:
         id
         echo UID=$(id -u) >> .env
         ls -la
+        env
+        export DOCKER_BUILDKIT=1
+        docker buildx ls
         docker-compose run --rm ${{ matrix.flavor }}-test
     - name: Cleanup
       run: |
