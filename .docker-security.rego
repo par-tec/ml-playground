@@ -21,19 +21,19 @@ deny[msg] {
     msg = sprintf("Line %d: Potential secret in ENV key found: %s", [i, val])
 }
 
-# Only use base images from trusted registries
-trusted_registries = [
+# Only use base images from trusted registries, or ${BASEIMAGE}.
+trusted_registries := [
     "registry.access.redhat.com",
     "ghcr.io/par-tec",
     "docker.io/library",
+    "${BASEIMAGE}:py310-debian",
 ]
 deny_untrusted_base_image[msg] {
     input[i].Cmd == "from"
     val := split(input[i].Value[0], " ")
-    trusted_registries_re = concat("|", trusted_registries)
-    ret := regex.match(trusted_registries_re, lower(val[0]))
-    not ret
-    msg = sprintf("Line %d: use trusted, FQDN base image: %s", [i, ret])
+    is_valid := [x | x := trusted_registries[_]; startswith((val[0]), x)]
+    count(is_valid) == 0
+    msg = sprintf("Line %d: use trusted, FQDN base image: %s", [i, val])
 }
 
 # Do not use 'latest' tag for base imagedeny[msg] {
