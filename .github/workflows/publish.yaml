@@ -59,7 +59,7 @@ jobs:
         uses: instrumenta/conftest-action@master
         with:
           files: ${{ matrix.version }}-${{ matrix.flavor }}.dockerfile
-          policy: .dockerfile-security.rego
+          policy: .docker-security.rego
   publish:
     strategy:
       matrix:
