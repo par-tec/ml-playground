@@ -4,7 +4,7 @@ spacy[transformers,lookups]
 sentence-transformers
 
 # Spacy requires torch.
-torch==2.0.1
+torch==2.2.0
 spacy==3.6.1
 spacy-alignments==0.9.0
 spacy-legacy==3.0.12
